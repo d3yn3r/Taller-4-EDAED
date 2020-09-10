@@ -58,7 +58,11 @@ text(grafica1,c(30,40),
 
 ```{r}
 ejemplo1 <- table(encuesta$Ejemplo_Charlie)
-barplot(ejemplo1)
+u2 <- sort(ejemplo1,decreasing = TRUE)
+barplot(u2, ylim = c(0,80), cex.names = (0.8),
+        col = c("darkblue","darkgreen","darkred","cyan"),
+        space = 1
+        )
 ```
 
 
