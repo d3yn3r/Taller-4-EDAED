@@ -1,0 +1,64 @@
+---
+title: "Taller 4 Estadística Descriptiva y Analísis Exploratorio de Datos"
+author: "Deyner Elías López Pineda"
+date: "9/9/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+	                    message = FALSE,
+	                    warning = FALSE
+                      )
+```
+
+## Análisis exploratorio acerca del primer episodio de Numb3rs
+
+```{r}
+#lectura de las bibliotecas necesarias
+library(readxl)
+```
+
+```{r}
+#Lectura de los datos de la encuesta
+encuesta <- read_excel("BD_Encuesta_Numb3rs.xlsx")
+
+```
+
+### ¿Vió el primer episodio de la primera temporada de Numb3rs?
+La distribución con respecto si vio el primer capitulo de la serie Numb3rs
+
+```{r}
+plot(seq(0,3,length.out = 123),seq(0,123,length.out = 123),type="n",
+     main = "Distribución de las personas que si y no vieron el episodio\nde la serie Numb3rs",
+     axes=FALSE,
+     xlab = " ",
+     ylab = " ",
+     )
+abline(h = seq(0,123,10), col = rep("grey30",17), lty = 3)
+
+numero_vistas <- table(encuesta$`¿Vio_Episodio1?`)
+
+grafica1 <- barplot(numero_vistas,
+        col = c("darkred", "darkgreen"),
+        names.arg = c("No lo vieron", "Si lo vieron"),
+        axes=FALSE,
+        ylim=c(0,123),
+        ylab = "Numero de personas que respondierón",
+        add = TRUE
+        )
+axis(2, at = c(0,20,49,74,100,123),las = 1)
+text(grafica1,c(30,40),
+     labels = paste(round((numero_vistas/sum(numero_vistas)*100),1),"%")
+     )
+
+```
+
+### Charlie usa el ejemplo de _____ para convencer a su hermano Don que él podría resolver el caso del asesino en serio.
+
+```{r}
+ejemplo1 <- table(encuesta$Ejemplo_Charlie)
+barplot(ejemplo1)
+```
+
+
