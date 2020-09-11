@@ -37,19 +37,19 @@ plot(seq(0,3,length.out = 123),seq(0,123,length.out = 123),type="n",
      )
 abline(h = seq(0,123,10), col = rep("grey30",17), lty = 3)
 
-numero_vistas <- table(encuesta$`¿Vio_Episodio1?`)
+tabla1 <- table(encuesta$`¿Vio_Episodio1?`)
 
-grafica1 <- barplot(numero_vistas,
-        col = c("darkred", "darkgreen"),
-        names.arg = c("No lo vieron", "Si lo vieron"),
-        axes=FALSE,
-        ylim=c(0,123),
-        ylab = "Numero de personas que respondierón",
-        add = TRUE
-        )
+grafica1 <- barplot(tabla1,
+                col = c("darkred", "darkgreen"),
+                names.arg = c("No lo vieron", "Si lo vieron"),
+                axes=FALSE,
+                ylim=c(0,123),
+                ylab = "Numero de personas que respondierón",
+                add = TRUE
+                )
 axis(2, at = c(0,20,49,74,100,123),las = 1)
 text(grafica1,c(30,40),
-     labels = paste(round((numero_vistas/sum(numero_vistas)*100),1),"%")
+     labels = paste(round((tabla1/sum(tabla1)*100),1),"%")
      )
 
 ```
@@ -57,12 +57,82 @@ text(grafica1,c(30,40),
 ### Charlie usa el ejemplo de _____ para convencer a su hermano Don que él podría resolver el caso del asesino en serio.
 
 ```{r}
-ejemplo1 <- table(encuesta$Ejemplo_Charlie)
-u2 <- sort(ejemplo1,decreasing = TRUE)
-barplot(u2, ylim = c(0,80), cex.names = (0.8),
-        col = c("darkblue","darkgreen","darkred","cyan"),
-        space = 1
-        )
+tabla2 <- table(encuesta$Ejemplo_Charlie)
+ordenar1 <- sort(tabla2,decreasing = TRUE)
+grafica2 <- barplot(ordenar1, ylim = c(0,80), cex.names = (0.8),
+                col = c("darkblue","darkgreen","darkred","cyan"),
+                space = 1.3,
+                font.axis=14,
+                las = 1
+                )
 ```
+### ¿Por qué no pudo ver el primer episodio de la serie Numb3rs?
+
+
+```{r}
+tabla3<- with(encuesta, c(Excusa_1, Excusa_2, Excusa_3))
+ordenar2 <- sort(table(tabla3))
+par(mar=c(4,15,4,4))
+grafica3 <- barplot(ordenar2,las=1,cex.names = 0.8,horiz = TRUE,
+                    xlim = c(0,25),
+                    ylim = c(0,9),
+                    col = c("blue3","cyan","chartreuse","brown2","orange",
+                           "darkgreen","darkmagenta","orangered"),
+                    main = "Respuestas del porque no vieron\nel Episodio de Numb3rs",col.main="blue",
+                    font.axis = 14
+                    )
+text(grafica3,c(0.8,2,3.2,4.4,5.5,6.7,7.9,9.2),
+     labels = paste(round(ordenar2/sum(ordenar2)*100,2),"%"))
+
+```
+
+
+###¿Qué dice Charlie que puede hacer para atrapar al asesino en serie?
+
+```{r}
+tabla4 <- table(encuesta$Pregunta_Charlie)
+par(mar = c(6,20,6,1))
+grafica3<- barplot(tabla4,horiz = TRUE,
+                   las = 1,
+                   col = c("black","red","orange"),
+                   main = "titulo"
+                   )
+```
+
+
+### Charlie usa una técnica que los físico usa para encontrar ______ observando como afectan los objeto alrededor .
+
+```{r}
+tabla5 <- table(encuesta$Charlie_Tecnica)
+tabla5
+```
+
+### La razón de no haber encontrado al asesino en el primer intento fue porque ______.
+```{r}
+tabla6 <- table(encuesta$Razon_No_Encontrar_A)
+tabla6
+```
+### ¿Cada cuántos años se podría ganar una vez la lotería el agente del FBI?
+```{r}
+tabla7 <- table(encuesta$Ganar_Lot_Años)
+tabla7
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
