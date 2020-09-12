@@ -2,7 +2,11 @@
 title: "Taller 4 Estadística Descriptiva y Analísis Exploratorio de Datos"
 author: "Deyner Elías López Pineda"
 date: "9/9/2020"
-output: html_document
+output:
+        html_document:
+                toc : yes
+                css : Style.css
+        
 ---
 
 ```{r setup, include=FALSE}
@@ -12,7 +16,10 @@ knitr::opts_chunk$set(echo = FALSE,
                       )
 ```
 
-## Análisis exploratorio acerca del primer episodio de Numb3rs
+<head>
+<subtitulo1>
+Análisis exploratorio acerca del primer episodio de Numb3rs
+</subtitulo1>
 
 ```{r}
 #lectura de las bibliotecas necesarias
@@ -25,109 +32,247 @@ encuesta <- read_excel("BD_Encuesta_Numb3rs.xlsx")
 
 ```
 
-### ¿Vió el primer episodio de la primera temporada de Numb3rs?
-La distribución con respecto si vio el primer capitulo de la serie Numb3rs
 
-```{r}
-plot(seq(0,3,length.out = 123),seq(0,123,length.out = 123),type="n",
-     main = "Distribución de las personas que si y no vieron el episodio\nde la serie Numb3rs",
-     axes=FALSE,
-     xlab = " ",
-     ylab = " ",
+<pregunta>
+1. ¿Vió el primer episodio de la primera temporada de Numb3rs?
+</pregunta>
+
+
+```{r fig.align='center'}
+par(bg="aquamarine")
+plot(seq(0,3, length.out = 123), seq(0,123, length.out = 123), type="n",
+     main   = "Distribución de las personas que si y no vieron el episodio\nde la serie Numb3rs",
+     
+     font.main = 4,
+     font.lab  = 4,
+     cex.main  = 1.1,
+     cex.lab   = 0.8,
+     cex.sub   = 0.8,
+     axes      = FALSE,
+     xlab      = " ",
+     ylab      = "Numero de personas que respondierón ",
+     
      )
-abline(h = seq(0,123,10), col = rep("grey30",17), lty = 3)
 
+rect(par("usr")[1],par("usr")[3],par("usr")[2],par("usr")[4],col="aliceblue")
+
+abline(h   = seq(0,123,10), 
+       col = rep("grey30",17), 
+       lty = 3,
+       
+       )
+
+#guardar los datos de la columna en una tabla
 tabla1 <- table(encuesta$`¿Vio_Episodio1?`)
 
+#mostramos con barplot la tabla1
 grafica1 <- barplot(tabla1,
-                col = c("darkred", "darkgreen"),
+                col       = c("darkred", "darkgreen"),
                 names.arg = c("No lo vieron", "Si lo vieron"),
-                axes=FALSE,
-                ylim=c(0,123),
-                ylab = "Numero de personas que respondierón",
-                add = TRUE
+                font.axis = 2,
+                axes      = FALSE,
+                ylim      = c(0,123),
+                add       = TRUE
                 )
 axis(2, at = c(0,20,49,74,100,123),las = 1)
-text(grafica1,c(30,40),
-     labels = paste(round((tabla1/sum(tabla1)*100),1),"%")
+
+text(grafica1,
+     c(30,40),
+     labels = paste(round((tabla1/sum(tabla1)*100),1),"%"),
+     
      )
 
 ```
 
-### Charlie usa el ejemplo de _____ para convencer a su hermano Don que él podría resolver el caso del asesino en serio.
 
-```{r}
-tabla2 <- table(encuesta$Ejemplo_Charlie)
+<pregunta>
+2. Charlie usa el ejemplo de _____ para convencer a su hermano Don que él podría resolver el caso del asesino en serio.
+</pregunta>
+
+
+```{r fig.align='center'}
+tabla2   <- table(encuesta$Ejemplo_Charlie)
 ordenar1 <- sort(tabla2,decreasing = TRUE)
-grafica2 <- barplot(ordenar1, ylim = c(0,80), cex.names = (0.8),
-                col = c("darkblue","darkgreen","darkred","cyan"),
-                space = 1.3,
-                font.axis=14,
-                las = 1
+
+par(mar=c(4,4,4,4))
+
+#cambiar color de fondo
+par(bg="bisque")
+
+plot(seq(0,1,length.out = 80),seq(0,80,length.out = 80),type="n",
+     main     = "Ejemplo usado por Charlie",
+     col.main = "black",
+     axes     = FALSE,
+     xlab     = " ",
+     ylab     = "Número de respuestas ",
+     font.lab = 2,
+     xlim     = c(0,80),
+     
+     )
+
+rect(par("usr")[1],par("usr")[3],par("usr")[2],par("usr")[4],col="azure3")
+grafica2 <- barplot(ordenar1, ylim = c(0,80), cex.names = (0.55),
+                col       = c("darkblue","darkgreen","darkred","cyan"),
+                font.axis = 2,
+                las       = 1,
+                axes      = FALSE,
+                add       = TRUE,
+                width     = 15,
+                names.arg = c("Regadera","Agujeros negros",
+                              "Agujeros negros y regadera","probabilidad"),
+                cex.axis  = 0.7,
+                
                 )
+
+axis(2, at = c(0,20,40,60,80),las = 1)
+
+text(grafica2, 
+     c(75,8,5,5), 
+     labels = paste(round((ordenar1/sum(ordenar1)*100),1),"%")
+     
+     )
+
 ```
-### ¿Por qué no pudo ver el primer episodio de la serie Numb3rs?
 
 
-```{r}
-tabla3<- with(encuesta, c(Excusa_1, Excusa_2, Excusa_3))
+<pregunta>
+3. ¿Por qué no pudo ver el primer episodio de la serie Numb3rs?
+</pregunta>
+
+
+```{r fig.align='center'}
+tabla3   <- with(encuesta, c(Excusa_1, Excusa_2, Excusa_3))
+
+#Oraganizamos los datos obtenidos
 ordenar2 <- sort(table(tabla3))
+par(bg="darkolivegreen1")
 par(mar=c(4,15,4,4))
+
 grafica3 <- barplot(ordenar2,las=1,cex.names = 0.8,horiz = TRUE,
-                    xlim = c(0,25),
-                    ylim = c(0,9),
-                    col = c("blue3","cyan","chartreuse","brown2","orange",
-                           "darkgreen","darkmagenta","orangered"),
-                    main = "Respuestas del porque no vieron\nel Episodio de Numb3rs",col.main="blue",
-                    font.axis = 14
+                    xlim      = c(0,30),
+                    ylim      = c(0,9),
+                    col       = c("blue3","cyan","chartreuse","brown2","orange",
+                                  "darkgreen","darkmagenta","orangered"),
+                    main      = ("Respuestas del porque no vieron\nel Episodio de Numb3rs"),
+                    col.main  ="blue",
+                    font.main = 2,
+                    font.axis = 2,
+                    
                     )
-text(grafica3,c(0.8,2,3.2,4.4,5.5,6.7,7.9,9.2),
-     labels = paste(round(ordenar2/sum(ordenar2)*100,2),"%"))
+
+text(18.5,grafica3,pos = 4.9,cex = 1,
+    labels = paste("    ",round(ordenar2/sum(ordenar2)*100,2),"%"))
+```
+
+
+<pregunta>
+4. ¿Qué dice Charlie que puede hacer para atrapar al asesino en serie?
+</pregunta>
+
+
+```{r fig.align='center'}
+tabla4  <- table(encuesta$Pregunta_Charlie)
+
+par(bg="cyan")
+pie(tabla4,
+    paste(labels = round(tabla4/sum(tabla4)*100,2),"%"),
+    col    = c("red","blue","yellow"),
+    main   = "Respuesta a pregunta de charlie acerca\nde que hacer para atrapar el asesino",
+    radius = 0.9,
+    edges  = 10000,
+
+    )
+
+legend("topright",
+       c("A traves de las matematicas\ngenerar una ecuacion para\nlograr su ubicacion",
+         "Encontrar una zona o\nvivienda de concurrencia","N/N"),
+       cex  =0.6,
+       fill = c("red","blue","yellow"),
+       
+       )
 
 ```
 
 
-###¿Qué dice Charlie que puede hacer para atrapar al asesino en serie?
+<pregunta>
+5. Charlie usa una técnica que los físico usa para encontrar ______ observando como afectan los objeto alrededor .
+</pregunta>
 
-```{r}
-tabla4 <- table(encuesta$Pregunta_Charlie)
-par(mar = c(6,20,6,1))
-grafica3<- barplot(tabla4,horiz = TRUE,
-                   las = 1,
-                   col = c("black","red","orange"),
-                   main = "titulo"
-                   )
-```
+```{r fig.align='center'}
+tabla5<- sort(table(with(encuesta,c(Res_Tec_Charlie_1,Res_Tec_Charlie_2))))
 
+par(mar=c(7,4,4,4))
+par(bg = "royalblue3")
 
-### Charlie usa una técnica que los físico usa para encontrar ______ observando como afectan los objeto alrededor .
+grafica5 <- barplot(tabla5,
+                    cex.names = 0.8,las = 2,
+                    ylim      = c(0,60),
+                    col       = c("cyan","red","blue","tomato","tan2","skyblue"),
+                    main      = "Titulo",
+                    font.main = 3,
+                    ylab      = "Número de respuestas",
+                    
+                    )
 
-```{r}
-tabla5 <- table(encuesta$Charlie_Tecnica)
-tabla5
-```
-
-### La razón de no haber encontrado al asesino en el primer intento fue porque ______.
-```{r}
-tabla6 <- table(encuesta$Razon_No_Encontrar_A)
-tabla6
-```
-### ¿Cada cuántos años se podría ganar una vez la lotería el agente del FBI?
-```{r}
-tabla7 <- table(encuesta$Ganar_Lot_Años)
-tabla7
+text(grafica5, 
+     c(4,4,5,6,22,50), 
+     labels = paste(round((tabla5/sum(tabla5)*100),1),"%")
+     )
 
 ```
 
 
+<pregunta>
+6. La razón de no haber encontrado al asesino en el primer intento fue porque ______.
+</pregunta>
 
 
+```{r fig.align='center'}
+tabla6   <- with(encuesta,c(Respuesta1,Respuesta2,Respuesta3))
+ordenar3 <- sort(table(tabla6))
+
+par(mar = c(4,15,4,4))
+par(bg = "turquoise4")
+
+grafica6 <- barplot(ordenar3, las = 2,cex.names = 0.78,
+                    horiz = TRUE,
+                    xlim  = c(0,40),
+                    las   = 1,
+                    col   = c("cyan","red","brown","orange","blue"),
+                    main  = "Titulo",
+                    cex.main  = 1,
+                    font.main = 4,
+                    font.axis = 2,
+                   
+                    )
+```
 
 
+<pregunta>
+7. ¿Cada cuántos años se podría ganar una vez la lotería el agente del FBI?
+</pregunta>
 
 
+```{r fig.align='center'}
+par(mar=c(4,10,4,4))
+par(bg = "gainsboro")
+
+tabla7 <- sort(table(encuesta$Ganar_Lot_Años))
+
+barplot(tabla7,las = 1,horiz=TRUE,
+        col  = c ("green","blue","cyan","yellow","brown","orange","red","violet",
+                 "darkorange","darkred"),
+        main = "Titulo",
+        font.maint = 2,
+        font.lab =2,
+        ylab = "años",
+        xlab = "Número de respuestas"
+        )
+
+```
 
 
+</head>
 
 
 

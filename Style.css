@@ -1,0 +1,17 @@
+body{
+    background-color: Cadetblue; 
+}
+h1{/* Etiqueta del titulo*/
+  color:Black;
+  text-align: center;
+}
+
+subtitulo1{
+  color:Black;
+  font-size: 250%
+}
+
+pregunta{
+  color:Black;
+  font-size: 150%
+}
