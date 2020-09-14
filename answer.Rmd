@@ -24,6 +24,7 @@ Análisis exploratorio acerca del primer episodio de Numb3rs
 ```{r}
 #lectura de las bibliotecas necesarias
 library(readxl)
+library(knitr)
 ```
 
 ```{r}
@@ -37,9 +38,13 @@ encuesta <- read_excel("BD_Encuesta_Numb3rs.xlsx")
 1. ¿Vió el primer episodio de la primera temporada de Numb3rs?
 </pregunta>
 
+<respuesta>
+Los datos obtenidos de esta pregunta logran evidenciar que un 39.8 de las respuestas fue que no vieron el episodio, dada la situación actual en la que se esta dando el semestre 2020-2 es una situación la cual se debe analizar mas fondo, ya que puede haber motivos muy pertinentes por los cuales no pudieron dar una respuesta afirmativa a esta pregunta, y estos datos servirían para conocer la situación en la que transcurre el semestre para cada uno de los estudiantes matriculados en el curso.
+</respuesta>
+
 
 ```{r fig.align='center'}
-par(bg="aquamarine")
+par(bg="lightblue")
 plot(seq(0,3, length.out = 123), seq(0,123, length.out = 123), type="n",
      main   = "Distribución de las personas que si y no vieron el episodio\nde la serie Numb3rs",
      
@@ -85,10 +90,25 @@ text(grafica1,
 ```
 
 
+```{r}
+kable(tabla1,
+      col.names = c("Respuesta","Número de Respuestas"),
+      row.names = FALSE,
+      
+      )
+```
+
+
 <pregunta>
 2. Charlie usa el ejemplo de _____ para convencer a su hermano Don que él podría resolver el caso del asesino en serio.
 </pregunta>
 
+
+<respuesta>
+Las respuestas dadas acá fueron depuradas ya que la pregunta fue abierta y existían múltiples respuestas explicadas de forma diferente pero que se referían a la mismo.
+Podemos ver que se pudo hacer una depuración mejor ya que la respuesta “agujeros negros y regadera” se podía clasificar como dos respuestas diferentes de la misma persona. 
+
+</respuesta>
 
 ```{r fig.align='center'}
 tabla2   <- table(encuesta$Ejemplo_Charlie)
@@ -97,7 +117,7 @@ ordenar1 <- sort(tabla2,decreasing = TRUE)
 par(mar=c(4,4,4,4))
 
 #cambiar color de fondo
-par(bg="bisque")
+par(bg="lightblue")
 
 plot(seq(0,1,length.out = 80),seq(0,80,length.out = 80),type="n",
      main     = "Ejemplo usado por Charlie",
@@ -110,7 +130,13 @@ plot(seq(0,1,length.out = 80),seq(0,80,length.out = 80),type="n",
      
      )
 
-rect(par("usr")[1],par("usr")[3],par("usr")[2],par("usr")[4],col="azure3")
+rect(par("usr")[1],par("usr")[3],par("usr")[2],par("usr")[4],col="aliceblue")
+
+abline(h   = seq(0,80,7), 
+       col = rep("grey30",17), 
+       lty = 3,
+       
+       )
 grafica2 <- barplot(ordenar1, ylim = c(0,80), cex.names = (0.55),
                 col       = c("darkblue","darkgreen","darkred","cyan"),
                 font.axis = 2,
@@ -135,17 +161,32 @@ text(grafica2,
 ```
 
 
+```{r}
+kable(tabla2,
+      col.names = c("Respuesta","Número de Respuestas"),
+      row.names = FALSE,
+      
+      )
+```
+
+
 <pregunta>
 3. ¿Por qué no pudo ver el primer episodio de la serie Numb3rs?
 </pregunta>
 
 
+<respuesta>
+Las excusas fueron depuradas en 3 tipos de excusas ya que a fondo el máximo que había eran 3, en lo que si hice énfasis fue que había excusas que contenían dos tipos, por lo cual cada una de esta fueron separadas en dos diferente, caso contrario a la excusa de “fallo de conexión o técnico” ya que esta encierra dos tipos de excusas en una sola
+Tomando como referencia los datos de quienes no vieron el episodio y comparándolo con la excusa ” fallo de conexión o técnico” podemos evidenciar que un gran numero de estudiantes está teniendo dificultades para llevar a cabo el semestre virtual, por lo cual seria interesante presentar este tipo de dificultades a la universidad para ayudar a dar una solución a los compañeros que están teniendo dificultades.
+
+</respuesta>
+
 ```{r fig.align='center'}
 tabla3   <- with(encuesta, c(Excusa_1, Excusa_2, Excusa_3))
-
+tabla3_1 <- table(tabla3)
 #Oraganizamos los datos obtenidos
 ordenar2 <- sort(table(tabla3))
-par(bg="darkolivegreen1")
+par(bg="lightblue")
 par(mar=c(4,15,4,4))
 
 grafica3 <- barplot(ordenar2,las=1,cex.names = 0.8,horiz = TRUE,
@@ -157,11 +198,23 @@ grafica3 <- barplot(ordenar2,las=1,cex.names = 0.8,horiz = TRUE,
                     col.main  ="blue",
                     font.main = 2,
                     font.axis = 2,
-                    
+                    xlab = "Cantidad de excusas",
+                    font.lab = 2,
                     )
 
-text(18.5,grafica3,pos = 4.9,cex = 1,
-    labels = paste("    ",round(ordenar2/sum(ordenar2)*100,2),"%"))
+text(c(4,5,6,6,9.3,10.3,15.3,22.3)+1,grafica3,
+     labels = paste(round(ordenar2/sum(ordenar2)*100,2),"%")
+     )
+
+```
+
+
+```{r}
+kable(tabla3_1,
+      col.names = c("Respuesta","Número de Respuestas"),
+      row.names = FALSE,
+      
+      )
 ```
 
 
@@ -170,10 +223,15 @@ text(18.5,grafica3,pos = 4.9,cex = 1,
 </pregunta>
 
 
+<respuesta>
+Aunque a mi paracer las respuestas "A traves de las matematicas generar una ecuacion para lograr su ubicacion", "Encontrar una zona o vivienda de concurrencia" son correctas, la mas acertada es la primera y con mayor porcentaje de respuesta, ya que aunque en el trasfondo lo que el propone es dar con la ubicacion de la casa del asesino, el especifica el uso de las matematicas para dar con la ubación de este mediante una ecuación.
+</respuesta>
+
 ```{r fig.align='center'}
 tabla4  <- table(encuesta$Pregunta_Charlie)
 
-par(bg="cyan")
+par(bg="lightblue")
+
 pie(tabla4,
     paste(labels = round(tabla4/sum(tabla4)*100,2),"%"),
     col    = c("red","blue","yellow"),
@@ -183,7 +241,7 @@ pie(tabla4,
 
     )
 
-legend("topright",
+legend(x =0.9,y = 1,
        c("A traves de las matematicas\ngenerar una ecuacion para\nlograr su ubicacion",
          "Encontrar una zona o\nvivienda de concurrencia","N/N"),
        cex  =0.6,
@@ -193,53 +251,82 @@ legend("topright",
 
 ```
 
+```{r}
+kable(tabla4,
+      col.names = c("Respuesta","Número de Respuestas"),
+      row.names = FALSE,
+      )
+```
+
+
 
 <pregunta>
-5. Charlie usa una técnica que los físico usa para encontrar ______ observando como afectan los objeto alrededor .
+5. Charlie usa una técnica que los físico usan para encontrar ______ observando como afectan los objeto alrededor .
 </pregunta>
+
+
+<respuesta>
+</respuesta>
 
 ```{r fig.align='center'}
 tabla5<- sort(table(with(encuesta,c(Res_Tec_Charlie_1,Res_Tec_Charlie_2))))
 
-par(mar=c(7,4,4,4))
-par(bg = "royalblue3")
+par(mar=c(8,5,3,3))
+par(bg = "lightblue")
 
 grafica5 <- barplot(tabla5,
                     cex.names = 0.8,las = 2,
                     ylim      = c(0,60),
-                    col       = c("cyan","red","blue","tomato","tan2","skyblue"),
-                    main      = "Titulo",
+                    col       = c("cyan","red","blue","tomato","tan2","green4"),
+                    main      = "Tecnica usada",
                     font.main = 3,
                     ylab      = "Número de respuestas",
-                    
+                    names.arg = "",
                     )
 
 text(grafica5, 
      c(4,4,5,6,22,50), 
      labels = paste(round((tabla5/sum(tabla5)*100),1),"%")
      )
-
+text(grafica5+0.1,
+     par("usr")[3],0.4,
+     labels = names(tabla5),
+     srt = 45,
+     pos = 2,
+     xpd = TRUE)
 ```
+
+```{r}
+kable(tabla5,
+      col.names = c("Respuesta","Número de Respuestas"),
+      row.names = FALSE,
+      
+      )
+```
+
 
 
 <pregunta>
 6. La razón de no haber encontrado al asesino en el primer intento fue porque ______.
 </pregunta>
 
+<respuesta>
+Dado que la pregunta fue abierta muchas de las formas de responder a ella fueron variadas, pero se referian a la misma idea, por ejemplo unas de ellas decian que uno de los motivos fue que una de las victimas habian mentido y esto ocasionado un dato erroneo, por lo cual una buena forma de reclasificarlo era "habia un dato erroneo", tambien algunas fueron reclasificadas en dos respuestas ya que estaban colocando dos razones por la cual no se habia dado con la ubicación del asesino.
+</respuesta>
 
 ```{r fig.align='center'}
 tabla6   <- with(encuesta,c(Respuesta1,Respuesta2,Respuesta3))
 ordenar3 <- sort(table(tabla6))
-
+tabla6_1 <- table(tabla6)
 par(mar = c(4,15,4,4))
-par(bg = "turquoise4")
+par(bg = "lightblue")
 
 grafica6 <- barplot(ordenar3, las = 2,cex.names = 0.78,
                     horiz = TRUE,
                     xlim  = c(0,40),
                     las   = 1,
                     col   = c("cyan","red","brown","orange","blue"),
-                    main  = "Titulo",
+                    main  = "Razones",
                     cex.main  = 1,
                     font.main = 4,
                     font.axis = 2,
@@ -247,34 +334,56 @@ grafica6 <- barplot(ordenar3, las = 2,cex.names = 0.78,
                     )
 ```
 
+```{r}
+kable(tabla6_1,
+      col.names = c("Respuesta","Número de Respuestas"),
+      row.names = FALSE,
+      
+      )
+```
+
+
 
 <pregunta>
 7. ¿Cada cuántos años se podría ganar una vez la lotería el agente del FBI?
 </pregunta>
 
+<respuesta>
+</respuesta>
 
 ```{r fig.align='center'}
-par(mar=c(4,10,4,4))
-par(bg = "gainsboro")
+tabla7 <- as.numeric((encuesta$Ganar_Lot_Años))
+tabla7_1 <- summary(data.frame(tabla7))
+options(scipen=999)
+par(bg = "lightblue")
+hist(tabla7, main = "Histograma de la Probabilidad de ganarse la loteria",
+     xlab = "Años", ylab = "Frecuencia",
+     border = "black",
+     col = "wheat")
+```
 
-tabla7 <- sort(table(encuesta$Ganar_Lot_Años))
+<ResumenN>
+Resumen Númerico
+</ResumenN>
 
-barplot(tabla7,las = 1,horiz=TRUE,
-        col  = c ("green","blue","cyan","yellow","brown","orange","red","violet",
-                 "darkorange","darkred"),
-        main = "Titulo",
-        font.maint = 2,
-        font.lab =2,
-        ylab = "años",
-        xlab = "Número de respuestas"
-        )
+```{r}
+kable(tabla7_1,
+      col.names = c(" "),
+      col = "black"
+      )
 
 ```
 
+<pregunta>
+Recomendaciones
+</pregunta>
 
-</head>
-
-
+<recomendaciones>
+- No hacer preguntas abiertas.
+- Crear estandares para el ingreso de valores numericos
+- hacer preguntas de opción multiple
+- 
+</recomendaciones>
 
 
 
